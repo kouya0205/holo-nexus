@@ -9,7 +9,7 @@ type ShareButtonsProps = {
 
 export default function ShareButtons({ deckId, deckName }: ShareButtonsProps) {
   // デッキのURL。実際の自サイトのURLに書き換えてください
-  const deckUrl = `https://holo-card.vercel.app/decklist/${deckId}`;
+  const deckUrl = `https://holo-nexus.vercel.app/decklist/${deckId}`;
 
   // クリップボードにコピーしたかどうかのフラグ
   const [isCopied, setIsCopied] = useState(false);

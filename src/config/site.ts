@@ -3,7 +3,7 @@ import { SiteConfig } from "@/types";
 export const siteConfig: SiteConfig = {
   title: "Holo Nexus",
   description: "ホロライブカードゲームの非公式サイトです。",
-  url: "https://holo-card.vercel.app",
+  url: "https://holo-nexus.vercel.app",
   header: {
     title: "Holo Nexus",
     logo: "/images/icon-512x512.webp",
@@ -26,26 +26,26 @@ export const siteConfig: SiteConfig = {
   cardList: {
     title: "カード一覧",
     description: "ホロライブカードゲームのカード一覧です。",
-    url: "https://holo-card.vercel.app/cardlist",
+    url: "https://holo-nexus.vercel.app/cardlist",
   },
   deckCreate: {
     title: "デッキ作成",
     description: "ホロライブカードゲームのデッキを作成します。",
-    url: "https://holo-card.vercel.app/deckcreate",
+    url: "https://holo-nexus.vercel.app/deckcreate",
   },
   deckList: {
     title: "デッキリスト",
     description: "ホロライブカードゲームのデッキリストです。",
-    url: "https://holo-card.vercel.app/decklist",
+    url: "https://holo-nexus.vercel.app/decklist",
   },
   auth: {
     title: "ログイン | 新規登録",
     description: "ホロライブカードゲームにログインします。",
-    url: "https://holo-card.vercel.app/auth",
+    url: "https://holo-nexus.vercel.app/auth",
   },
   profile: {
     title: "プロフィール",
     description: "ホロライブカードゲームのプロフィールです。",
-    url: "https://holo-card.vercel.app/profile",
+    url: "https://holo-nexus.vercel.app/profile",
   },
 };
