@@ -1,112 +1,101 @@
+import { CircleChevronRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+
+import { createClient } from "../../utils/supabase/server";
+import Article from "../components/Articles";
+import { Button } from "@/components/ui/button";
+
+export default async function Home() {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const Ad1 = [
+    { id: 1, url: "https://dot-scallop-d45.notion.site/1-1447bfad8a6a80c3b8c1fa3352026deb?pvs=4" },
+    { id: 2, url: "https://dot-scallop-d45.notion.site/1-1447bfad8a6a80c3b8c1fa3352026deb?pvs=4" },
+    { id: 3, url: "https://dot-scallop-d45.notion.site/1-1447bfad8a6a80c3b8c1fa3352026deb?pvs=4" },
+  ];
+
+  const Ad2 = [
+    { id: 1, url: "/decklist", src: "/images/1.webp", title: "デッキリスト" },
+    { id: 2, url: "/cardlist", src: "/images/2.png", title: "カード一覧" },
+    { id: 3, url: "/match", src: "/images/3.png", title: "1人回し" },
+  ];
+
+  const Ad3 = [
+    { id: 1, url: "https://dot-scallop-d45.notion.site/1-1447bfad8a6a80c3b8c1fa3352026deb?pvs=4" },
+    { id: 2, url: "https://dot-scallop-d45.notion.site/1-1447bfad8a6a80c3b8c1fa3352026deb?pvs=4" },
+    { id: 3, url: "https://dot-scallop-d45.notion.site/1-1447bfad8a6a80c3b8c1fa3352026deb?pvs=4" },
+    { id: 4, url: "https://dot-scallop-d45.notion.site/1-1447bfad8a6a80c3b8c1fa3352026deb?pvs=4" },
+    { id: 5, url: "https://dot-scallop-d45.notion.site/1-1447bfad8a6a80c3b8c1fa3352026deb?pvs=4" },
+    { id: 6, url: "https://dot-scallop-d45.notion.site/1-1447bfad8a6a80c3b8c1fa3352026deb?pvs=4" },
+  ];
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <main className="flex min-h-screen flex-col items-center justify-between bg-white">
+      {/* 上部の段 - 3つの広告枠 */}
+      <div className="flex w-full items-center justify-center gap-4 pt-4">
+        {Ad1.map((item) => (
+          <Link
+            href={item.url}
+            className="w-1/4 sm:w-1/4 bg-gray-400 aspect-[4/3] sm:aspect-[16/9]"
+            // aspect-[横/縦]
+            key={item.id}
+          ></Link>
+        ))}
+      </div>
+      {/* 上部の段 - 3つの広告枠　ここまで参考に */}
+
+      {/* 中央の段 - 3つの枠 */}
+      <div className="flex w-full items-center justify-center gap-4 mt-12">
+        {Ad2.map((item) => (
+          <Link
+            href={item.url}
+            className="flex w-1/4 max-w-[300px] flex-col items-center justify-center bg-gray-300 aspect-[4/3] sm:aspect-[16/9] p-2"
+            key={item.id}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            <Image src={item.src} alt={item.title} width={50} height={50} className="w-7 h-auto sm:w-16" />
+            <p className="mt-2 text-xs sm:text-xl">{item.title}</p>
+          </Link>
+        ))}
+      </div>
+      {/* 中央の段 - 3つの枠 ここまで*/}
+
+      {/* 下部の段 - 横スクロール機能付きのボックス */}
+      <div className="relative flex w-full flex-col gap-4 mt-12" style={{ zIndex: 10 }}>
+        <div className="mb-2 flex justify-start">
+          <button className="rounded bg-blue-500 text-xs sm:text-lg px-2 py-1 sm:px-5 sm:py-2 text-white ml-4">
+            追加
+          </button>{" "}
+          {/* 追加ボタンを上部左に配置*/}
         </div>
-      </div>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        {/* ScrollAreaの設定 */}
+        <ScrollArea className="h-40 w-full">
+          <div className="flex h-28 sm:h-40 gap-4 ml-4 mr-4" style={{ whiteSpace: "nowrap", overflowX: "auto" }}>
+            {[...Array(6)].map((_, index) => (
+              <div key={index} className="inline-block h-3/4  bg-gray-400 aspect-[4/3] sm:aspect-[16/9]" />
+            ))}
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+        <div className="flex w-full items-center gap-4 px-4">
+          <h2 className="text-2xl">最新のレポート記事</h2>
+          <Link
+            href="/articles"
+            className="flex size-auto items-center justify-between bg-[#349BD1] p-1 text-sm text-white hover:bg-[#38B8EA] rounded-md"
+          >
+            <Button className="bg-[#349BD1] text-white hover:bg-[#38B8EA] px-2 py-1 text-sm sm:text-lg">
+              もっと見る
+            </Button>
+            <CircleChevronRight className="ml-2 h-4 w-4" />
+          </Link>
+        </div>
+        <Article user={user!} limit={20} type="scroll" />
       </div>
     </main>
   );

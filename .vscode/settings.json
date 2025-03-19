@@ -1,0 +1,18 @@
+{
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.addMissingImports": "explicit"
+    },
+    "workbench.colorCustomizations": {
+        "statusBar.background": "#430aef48",
+        "statusBar.foreground": "#ffffff"
+    },
+    "cSpell.words": [
+        "brandcrumb",
+        "editorjs",
+        "shadcn",
+        "supabase",
+        "uuidv"
+    ]
+}
