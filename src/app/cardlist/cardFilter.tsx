@@ -179,23 +179,23 @@ const FilterForm = ({ onFilterChange, currentFilter }: FilterFormProps) => {
           control={control}
           render={({ field }) => (
             <FormControl fullWidth>
-            <InputLabel id="release_deck">収録商品</InputLabel>
-            <Select
-              {...field}
-              variant="standard"
-              className="w-full"
-              label="収録商品"
-              labelId="release_deck"
-              value={field.value || ""}
-              onChange={(e) => field.onChange(e.target.value)}
-            >
-              <MenuItem value="">選択しない</MenuItem>
-              {cardConfig.release_deck.map((item) => (
-                <MenuItem key={item.id} value={item.name}>
-                  {item.name}
-                </MenuItem>
-              ))}
-            </Select>
+              <InputLabel id="release_deck">収録商品</InputLabel>
+              <Select
+                {...field}
+                variant="standard"
+                className="w-full"
+                label="収録商品"
+                labelId="release_deck"
+                value={field.value || ""}
+                onChange={(e) => field.onChange(e.target.value)}
+              >
+                <MenuItem value="">選択しない</MenuItem>
+                {cardConfig.release_deck.map((item) => (
+                  <MenuItem key={item.id} value={item.name}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </Select>
             </FormControl>
           )}
         />
