@@ -17,14 +17,12 @@ import { postPatchSchema, postPatchSchemaType } from "@/lib/validation/posts";
 
 import CustomAlert from "./alert";
 import { Button } from "./ui/button";
-import { Card, CardContent, CardHeader } from "./ui/card";
-import { Separator } from "./ui/separator";
 import LinkTool from "@editorjs/link";
 import Table from "@editorjs/table";
 import Embed from "@editorjs/embed";
-import { createClient } from "../../utils/supabase/client";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
+import { createClient } from "@/utils/supabase/client";
 // import Checklist from "@editorjs/checklist";
 
 export default function UpdateArticleEditor({

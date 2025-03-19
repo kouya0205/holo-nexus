@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "../../../../../utils/supabase/server";
 import scrapeMetadata from "@/lib/scrapeMetadata";
+import { createClient } from "@/utils/supabase/server";
 
 const CACHE_EXPIRATION_DAYS = 14; // 2週間
 

@@ -1,7 +1,7 @@
 import { BreadCrumb } from "@/components/brandcrumb";
-import { createClient } from "../../../utils/supabase/server";
 import DeckSearch from "@/components/deck/deckSearch";
 import OtherDeckList from "@/components/deck/otherDeckList";
+import { createClient } from "@/utils/supabase/server";
 
 const breadcrumbPaths = [
   { label: "Home", href: "/" },

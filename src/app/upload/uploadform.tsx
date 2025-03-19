@@ -10,8 +10,7 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { cardConfig } from "@/config/card";
 import { useAlert } from "@/hooks/useAlert";
-
-import { createClient } from "../../../utils/supabase/client";
+import { createClient } from "@/utils/supabase/client";
 
 // タイプの選択肢
 const radioGroupOptions = ["holo", "buzz_holo", "oshi_holo", "support"] as const;

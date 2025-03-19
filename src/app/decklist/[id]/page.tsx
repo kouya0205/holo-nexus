@@ -1,11 +1,11 @@
 "use server";
 
 import { BreadCrumb } from "@/components/brandcrumb";
-import { createClient } from "../../../../utils/supabase/server";
 import Image from "next/image";
 import ShareButtons from "@/components/SNS/shareButtons";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { CardConfig } from "@/types";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function DeckDetail({ params }: { params: Promise<{ id: string }> }) {
   const id = (await params).id;

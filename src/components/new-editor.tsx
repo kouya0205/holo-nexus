@@ -21,12 +21,12 @@ import { Dialog, DialogContent } from "./ui/dialog";
 import { useAlert } from "@/hooks/useAlert";
 import { postPatchSchema, postPatchSchemaType } from "@/lib/validation/posts";
 
-import { createClient } from "../../utils/supabase/client";
 import CustomAlert from "./alert";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { Separator } from "./ui/separator";
 import Image from "next/image";
+import { createClient } from "@/utils/supabase/client";
 // import Checklist from "@editorjs/checklist";
 
 export default function CreateArticleEditor({ user }: { user: User | null }) {

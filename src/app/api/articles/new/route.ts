@@ -1,5 +1,5 @@
+import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "../../../../../utils/supabase/server";
 
 export async function POST(request: NextRequest) {
   const formData = await request.json();

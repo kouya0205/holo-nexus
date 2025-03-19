@@ -1,4 +1,4 @@
-import { createClient } from "../../../utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 import UploadForm from "./uploadform";
 
 export default async function UploadPage() {

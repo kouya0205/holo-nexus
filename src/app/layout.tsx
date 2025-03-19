@@ -8,8 +8,7 @@ import React from "react";
 import { Footer } from "@/components/Footer";
 import Header from "@/components/Header";
 import { siteConfig } from "@/config/site";
-
-import { createClient } from "../../utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 
 const inter = Inter({
   subsets: ["latin"],

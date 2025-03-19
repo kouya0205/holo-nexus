@@ -1,5 +1,5 @@
+import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "../../../../../../utils/supabase/server";
 import { v4 as uuidv4 } from "uuid"; // UUIDを生成するために使用
 
 export async function POST(req: NextRequest) {

@@ -2,8 +2,7 @@ import { User } from "@supabase/supabase-js";
 import { notFound } from "next/navigation";
 
 import UpdateArticleEditor from "@/components/update-editor";
-
-import { createClient } from "../../../../utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 
 interface EditorProps {
   params: { article_id: string };

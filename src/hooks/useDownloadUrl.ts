@@ -1,8 +1,7 @@
 "use client";
 
+import { createClient } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
-
-import { createClient } from "../../utils/supabase/client";
 
 export const useDownloadUrl = (filePath: string | undefined, key: "avatars" | "posts") => {
   const supabase = createClient();

@@ -4,9 +4,9 @@ import Link from "next/link";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
-import { createClient } from "../../utils/supabase/server";
 import Article from "../components/Articles";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Home() {
   const supabase = createClient();

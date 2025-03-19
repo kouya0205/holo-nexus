@@ -1,6 +1,5 @@
 import CreateArticleEditor from "@/components/new-editor";
-
-import { createClient } from "../../../../utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function CreateArticle() {
   const supabase = createClient();

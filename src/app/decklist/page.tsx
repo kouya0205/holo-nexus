@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Suspense } from "react";
 
-import { createClient } from "../../../utils/supabase/server";
 import DeckList, { DeckType } from "./DeckList";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function Home() {
   const supabase = createClient();

@@ -8,9 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { supabaseErrorMessages } from "@/config/errorMessage";
 import { loginSchema, signupSchema } from "@/config/schema";
-
-import { createClient } from "../../utils/supabase/server";
-import { revalidatePath } from "next/cache";
+import { createClient } from "@/utils/supabase/client";
 
 export async function emailLogin(prevState: unknown, formData: FormData) {
   const supabase = createClient();

@@ -4,8 +4,8 @@ import { Suspense } from "react";
 import { ProfileSkelton } from "@/components/profileSkelton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-import { createClient } from "../../../../utils/supabase/server";
 import UserProfile from "../../profile/userprofile";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function UserProfilePage({ params }: { params: { user_id: string } }) {
   const supabase = createClient();
