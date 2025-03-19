@@ -225,7 +225,29 @@ export default function CreateArticleEditor({ user }: { user: User | null }) {
     });
 
     setIsSaving(false);
+
+    const getArticleData = async () => {
+      const { data, error } = await supabase
+        .from("articles")
+        .select("article_id")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(1);
+
+      if (error) {
+        console.error(error);
+        return null;
+      }
+
+      return data[0];
+    };
+
     const CreateArticleData = await getArticleData();
+
+    if (!CreateArticleData) {
+      console.error("記事の取得に失敗しました");
+      return;
+    }
 
     router.push(`/articles/${CreateArticleData.article_id}`);
 

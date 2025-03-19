@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "../../../../../utils/supabase/server";
 import scrapeMetadata from "@/lib/scrapeMetadata";
 
-const CACHE_EXPIRATION_DAYS = 7; // 1週間（7日）
+const CACHE_EXPIRATION_DAYS = 14; // 2週間
 
 export async function GET(req: NextRequest) {
   const supabase = createClient();
@@ -20,10 +20,6 @@ export async function GET(req: NextRequest) {
       .select("title, description, image_url, updated_at")
       .eq("url", url)
       .single();
-
-    if (error) {
-      return NextResponse.json({ success: 0, error: "Failed to fetch metadata" }, { status: 500 });
-    }
 
     // 既存データがあり、1週間以内ならそのまま返す
     if (data && data.updated_at) {
@@ -45,25 +41,27 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    // スクレイピングしてデータ取得
-    const metadata = await scrapeMetadata(url);
-    if (!metadata) {
-      return NextResponse.json({ success: 0, error: "Failed to fetch metadata" }, { status: 500 });
-    }
+    if (error) {
+      // スクレイピングしてデータ取得
+      const metadata = await scrapeMetadata(url);
+      if (!metadata) {
+        return NextResponse.json({ success: 0, error: "Failed to fetch metadata" }, { status: 500 });
+      }
 
-    // DBに保存（既存データがある場合は更新）
-    await supabase.from("article_links").upsert({ url, ...metadata, updated_at: new Date().toISOString() });
+      // DBに保存（既存データがある場合は更新）
+      await supabase.from("article_links").upsert({ url, ...metadata, updated_at: new Date().toISOString() });
 
-    return NextResponse.json({
-      success: 1,
-      meta: {
-        title: metadata.title,
-        description: metadata.description,
-        image: {
-          url: metadata.image_url,
+      return NextResponse.json({
+        success: 1,
+        meta: {
+          title: metadata.title,
+          description: metadata.description,
+          image: {
+            url: metadata.image_url,
+          },
         },
-      },
-    });
+      });
+    }
   } catch (error) {
     return NextResponse.json({ success: 0, error: "Internal server error" }, { status: 500 });
   }
