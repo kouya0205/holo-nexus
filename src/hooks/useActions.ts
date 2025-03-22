@@ -190,6 +190,8 @@ export async function createDeck(values: any) {
           leader_id: values.leaderInfo.card_id,
           leader_name: values.leaderInfo.card_name,
           image_url: values.leaderInfo.image_url,
+          color: values.leaderInfo.color,
+          card_number: values.leaderInfo.card_number,
         },
       ])
       .select("deck_id")

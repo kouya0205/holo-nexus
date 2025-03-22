@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { Suspense } from "react";
 
-import DeckList, { DeckType } from "./DeckList";
+import { Button } from "@/components/ui/button";
+import DeckListSkelton from "@/components/deck/deckListSkelton";
 import { createClient } from "@/utils/supabase/server";
+import DeckListContainer from "./DeckListContainer";
 
 export default async function Home() {
   const supabase = createClient();
@@ -14,28 +16,27 @@ export default async function Home() {
 
   if (!user) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-white">
-        <Link href="/auth" className="mt-8 text-center text-2xl">
-          ログイン
-        </Link>
+      <main className="flex min-h-screen flex-col items-center gap-2 mt-20 bg-white">
+        <p>デッキリストの作成にはログインが必要です。</p>
+        <Button className="bg-blue-500 text-white hover:bg-blue-600">
+          <Link href="/auth" className="text-center text-xl">
+            ログイン
+          </Link>
+        </Button>
       </main>
     );
   }
 
-  const { data: userDecks, error } = await supabase.from("user_deck").select("deck_list(*)").eq("id", user.id);
-
-  if (error) {
-    console.error("Failed to fetch user decks:", error);
-    // 必要に応じてエラー表示など
-  }
-
-  const deckList: DeckType = (userDecks || []).map((row) => row.deck_list);
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-between bg-white">
-      <Suspense fallback={<div>Loading...</div>}>
-        <DeckList user={user} deckList={deckList} />
-      </Suspense>
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold border-b pb-2 mb-8">保存したデッキ</h1>
+
+        {/* デッキリスト一覧のみSuspenseでラップ */}
+        <Suspense fallback={<DeckListSkelton />}>
+          <DeckListContainer userId={user.id} />
+        </Suspense>
+      </div>
     </main>
   );
 }

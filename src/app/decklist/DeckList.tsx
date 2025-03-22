@@ -12,8 +12,16 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useAlert } from "@/hooks/useAlert";
 import { User } from "@supabase/supabase-js";
+import { MoreVertical, Copy, Eye, Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -27,7 +35,9 @@ export type DeckType = {
   public: string;
   leader_id: string;
   leader_name: string;
-  image_url: string;
+  image_url: string | null;
+  color: string;
+  card_number: number;
 }[];
 
 type DeckListProps = {
@@ -38,7 +48,15 @@ type DeckListProps = {
 export default function DeckList({ user, deckList }: DeckListProps) {
   const router = useRouter();
   const { showAlert } = useAlert();
-  const tableDesign = "border-b px-1 py-1 sm:px-4 sm:py-2 text-[10px] sm:text-base font-bold";
+
+  const colorMap: Record<string, string> = {
+    赤: "bg-red-500",
+    緑: "bg-green-500",
+    青: "bg-blue-500",
+    紫: "bg-purple-500",
+    黒: "bg-gray-800",
+    黄: "bg-yellow-500",
+  };
 
   const deckDuplicate = async (deck_id: string, user_id: string) => {
     try {
@@ -89,73 +107,102 @@ export default function DeckList({ user, deckList }: DeckListProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <div className="mx-auto rounded-lg bg-white p-6 shadow-lg">
-        <div className="mb-6 flex items-center justify-between">
-          <h1 className="text:xs sm:text-2xl font-bold">保存したデッキ一覧</h1>
-          <Link href="/deckcreate" className="pointer">
-            <Button className="rounded bg-red-500 px-2 py-1 sm:px-4 sm:py-2 text-white text-sm sm:text-lg hover:bg-red-600">
-              新規作成
-            </Button>
-          </Link>
-        </div>
-        <table className="w-full table-auto">
-          <thead>
-            <tr>
-              <th className={tableDesign}>デッキ名</th>
-              <th className={tableDesign}>リーダー</th>
-              <th className={tableDesign}>画像</th>
-              <th className={tableDesign}>作成日</th>
-              <th className={tableDesign}></th>
-            </tr>
-          </thead>
-          <tbody>
-            {deckList.map((deck, index) => (
-              <tr key={deck.deck_id} className="text-center border-b ">
-                <td className="px-1 py-1 sm:px-2 sm:py-2 text-[8px] sm:text-base">{deck.name}</td>
-                <td className="px-1 py-1 sm:px-2 sm:py-2 text-[8px] sm:text-base">{deck.leader_name}</td>
-                <td className="px-1 py-2 sm:py-2">
-                  <Image src={deck.image_url} alt={deck.leader_name} width={50} height={90} />
-                </td>
-                <td className="px-2 py-1 text-[8px] sm:text-base w-[10%] text-center">
-                  {deck.created_at ? (
-                    <span className="block">{new Date(deck.created_at).toLocaleDateString()}</span>
-                  ) : (
-                    <span>日付なし</span>
-                  )}
-                </td>
+    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+      {deckList.map((deck) => (
+        <div key={deck.deck_id} className="bg-white border rounded-lg overflow-hidden relative">
+          {/* デッキ画像 */}
+          <div className="relative h-[200px]">
+            <Image
+              src={deck.image_url || "/placeholder.svg"}
+              alt={deck.name}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover"
+            />
 
-                <td className="px-2 py-2 flex flex-col md:flex-row gap-1 justify-center">
-                  <Link href={`/decklist/${deck.deck_id}`}>
-                    <Button className="bg-red-500 hover:bg-red-600">詳細</Button>
-                  </Link>
-                  <Button
-                    className="bg-yellow-500 hover:bg-yellow-600"
-                    onClick={() => deckDuplicate(deck.deck_id, user.id)}
-                  >
-                    複製
+            {/* 右上のメニュー */}
+            <div className="absolute top-2 right-2 z-10">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="h-8 w-8 p-0 bg-white/80 hover:bg-white">
+                    <MoreVertical className="h-4 w-4" />
                   </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-16">
+                  <DropdownMenuItem asChild>
+                    <Link href={`/decklist/${deck.deck_id}`} className="flex items-center">
+                      <Eye className="mr-2 h-4 w-4" />
+                      <span className="text-sm">詳細</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => deckDuplicate(deck.deck_id, user.id)} className="flex items-center">
+                    <Copy className="mr-2 h-4 w-4" />
+                    <span className="text-sm">複製</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
                   <AlertDialog>
-                    <AlertDialogTrigger className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md text-white text-sm">
-                      削除
+                    <AlertDialogTrigger asChild>
+                      <DropdownMenuItem
+                        onSelect={(e) => e.preventDefault()}
+                        className="flex items-center text-destructive focus:text-destructive"
+                      >
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        <span className="text-sm">削除</span>
+                      </DropdownMenuItem>
                     </AlertDialogTrigger>
-                    <AlertDialogContent className="top-28">
+                    <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>本当に削除しますか</AlertDialogTitle>
+                        <AlertDialogTitle>「{deck.name || "無題のデッキ"}」を削除しますか？</AlertDialogTitle>
                         <AlertDialogDescription>削除すると元に戻すことはできません</AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>キャンセル</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => deckDelete(deck.deck_id, user.id)}>削除</AlertDialogAction>
+                        <AlertDialogAction
+                          onClick={() => deckDelete(deck.deck_id, user.id)}
+                          className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        >
+                          削除
+                        </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
+            {/* 下部の黒いオーバーレイ */}
+            <div className="absolute bottom-0 left-0 w-full h-14 bg-gradient-to-t from-black/80 to-transparent"></div>
+
+            <div className="text-white absolute bottom-2 left-2">
+              <div className="flex flex-col">
+                <div className="text-xs">{deck.card_number}</div>
+                <div className="text-xs">{deck.leader_name}</div>
+              </div>
+            </div>
+
+            {/* リーダーカラー */}
+            {deck.color && (
+              <div className="absolute bottom-2 right-2">
+                <div className={`w-4 h-4 rounded-full border border-white ${colorMap[deck.color]}`} />
+              </div>
+            )}
+          </div>
+
+          <div className="p-2">
+            <Link href={`/decklist/${deck.deck_id}`}>
+              <h3 className="font-bold">{deck.name || "無題のデッキ"}</h3>
+              <div className="flex flex-col mt-1">
+                <div className="text-xs text-gray-500">
+                  最終更新:{" "}
+                  {deck.updated_at
+                    ? new Date(deck.updated_at).toLocaleDateString("ja-JP")
+                    : new Date(deck.created_at).toLocaleDateString("ja-JP")}
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
