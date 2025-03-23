@@ -7,13 +7,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { User } from "@supabase/supabase-js";
 
-export default function ClientDeckList({ 
-  initialDeckList, 
-  user 
-}: { 
-  initialDeckList: DeckType;
-  user: User;
-}) {
+export default function ClientDeckList({ initialDeckList, user }: { initialDeckList: DeckType; user: User }) {
   const [leaderFilter, setLeaderFilter] = useState("");
   const [colorFilter, setColorFilter] = useState("");
   const [nameFilter, setNameFilter] = useState("");
@@ -22,30 +16,26 @@ export default function ClientDeckList({
   // フィルター適用時の処理
   useEffect(() => {
     let result = initialDeckList;
-    
+
     if (leaderFilter) {
-      result = result.filter(deck => 
-        deck.leader_name?.toLowerCase().includes(leaderFilter.toLowerCase())
-      );
+      result = result.filter((deck) => deck.leader_name?.toLowerCase().includes(leaderFilter.toLowerCase()));
     }
-    
+
     if (colorFilter) {
-      result = result.filter(deck => deck.color === colorFilter);
+      result = result.filter((deck) => deck.color === colorFilter);
     }
-    
+
     if (nameFilter) {
-      result = result.filter(deck => 
-        deck.name?.toLowerCase().includes(nameFilter.toLowerCase())
-      );
+      result = result.filter((deck) => deck.name?.toLowerCase().includes(nameFilter.toLowerCase()));
     }
-    
+
     setFilteredDeckList(result);
   }, [leaderFilter, colorFilter, nameFilter, initialDeckList]);
 
   return (
     <>
       {/* フィルターセクション */}
-      <FilterSection 
+      <FilterSection
         leaderFilter={leaderFilter}
         setLeaderFilter={setLeaderFilter}
         colorFilter={colorFilter}
@@ -53,14 +43,14 @@ export default function ClientDeckList({
         nameFilter={nameFilter}
         setNameFilter={setNameFilter}
       />
-      
+
       {/* 新規作成ボタン */}
       <div className="flex justify-end mb-6">
         <Link href="/deckcreate">
           <Button className="bg-red-600 hover:bg-red-700 text-white">新規作成</Button>
         </Link>
       </div>
-      
+
       {/* フィルタリング済みのデッキリスト */}
       {filteredDeckList.length > 0 ? (
         <DeckList user={user} deckList={filteredDeckList} />
@@ -72,4 +62,4 @@ export default function ClientDeckList({
       )}
     </>
   );
-} 
+}

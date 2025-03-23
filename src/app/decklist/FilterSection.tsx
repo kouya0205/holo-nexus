@@ -28,7 +28,7 @@ export default function FilterSection({
   return (
     <div className="bg-white border rounded-lg p-6 mb-8">
       <h2 className="text-xl font-semibold mb-4">フィルター</h2>
-      
+
       {/* リーダーフィルター */}
       <div className="mb-4">
         <label className="block text-sm font-medium mb-1">リーダー</label>
@@ -40,7 +40,7 @@ export default function FilterSection({
           className="w-full max-w-md"
         />
       </div>
-      
+
       {/* カラーフィルター */}
       <div className="mb-4">
         <label className="block text-sm font-medium mb-1">カラー</label>
@@ -58,7 +58,7 @@ export default function FilterSection({
           ))}
         </div>
       </div>
-      
+
       {/* 名前フィルター */}
       <div className="mb-6">
         <label className="block text-sm font-medium mb-1">デッキ名</label>
@@ -70,7 +70,7 @@ export default function FilterSection({
           className="w-full max-w-md"
         />
       </div>
-      
+
       {/* リセットボタン */}
       <div className="flex justify-center">
         <Button onClick={resetFilters} variant="outline">
@@ -79,4 +79,4 @@ export default function FilterSection({
       </div>
     </div>
   );
-} 
+}

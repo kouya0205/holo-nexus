@@ -4,20 +4,17 @@ import ClientDeckList from "./ClientDeckList";
 
 export default async function DeckListContainer({ userId }: { userId: string }) {
   const supabase = createClient();
-  
+
   // ユーザー情報の取得
   const { data: userData } = await supabase.auth.getUser();
   const user = userData.user;
-  
+
   if (!user) {
     return <div>ユーザー情報の取得に失敗しました</div>;
   }
-  
+
   // すべてのデッキデータを一度に取得
-  const { data: userDecks, error } = await supabase
-    .from("user_deck")
-    .select("deck_list(*)")
-    .eq("id", userId);
+  const { data: userDecks, error } = await supabase.from("user_deck").select("deck_list(*)").eq("id", userId);
 
   if (error) {
     console.error("Failed to fetch user decks:", error);
@@ -37,4 +34,4 @@ export default async function DeckListContainer({ userId }: { userId: string }) 
   }
 
   return <ClientDeckList initialDeckList={deckList} user={user} />;
-} 
+}
